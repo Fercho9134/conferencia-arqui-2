@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard • Monitoreo Cognitivo</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tipografía moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body { 
+            background-color: #0f0f0f; 
+            color: #f0f4f8; 
+            letter-spacing: -0.01em;
+            padding-bottom: 2rem;
+        }
+
+        /* Contenedor con más aire */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Encabezado premium */
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 1.5rem;
+        }
+
+        .dashboard-header h2 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin: 0;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .live-badge {
+            background-color: #1e3a2f;
+            color: #6ee7b7;
+            padding: 0.25rem 0.75rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: 1px solid #2c5e4a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .live-badge::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Tarjetas KPI - Elevadas */
+        .kpi-card {
+            background-color: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 24px;
+            padding: 1.75rem 1.5rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            height: 100%;
+        }
+
+        .kpi-card:hover {
+            border-color: #3f3f46;
+            background-color: #1c1c20;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.8);
+        }
+
+        .kpi-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #a1a1aa;
+            margin-bottom: 0.75rem;
+        }
+
+        .kpi-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+            color: #ffffff;
+        }
+
+        .kpi-context {
+            font-size: 0.85rem;
+            color: #71717a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-top: 1px solid #27272a;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+        /* Colores específicos para cada KPI */
+        .kpi-total .kpi-value { color: #38bdf8; }      /* Azul hielo */
+        .kpi-alarm .kpi-value { color: #f87171; }      /* Rojo coral */
+        .kpi-action .kpi-value { 
+            color: #a78bfa; 
+            font-size: 2.2rem;
+        } /* Púrpura suave */
+
+        /* Tarjeta de tabla - Diseño ejecutivo */
+        .table-card {
+            background-color: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 28px;
+            padding: 1.75rem 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .table-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 1.75rem;
+        }
+
+        .table-header h4 {
+            font-weight: 600;
+            font-size: 1.4rem;
+            margin: 0;
+            color: #f4f4f5;
+        }
+
+        .table-counter {
+            background-color: #27272a;
+            color: #d4d4d8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Tabla rediseñada */
+        .table {
+            color: #e4e4e7;
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+        }
+
+        .table thead tr {
+            border-bottom: 1px solid #3f3f46;
+        }
+
+        .table th {
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #a1a1aa !important;
+            padding: 0.75rem 1rem;
+            border: none;
+            background-color: transparent;
+        }
+
+        .table td {
+            padding: 1rem 1rem;
+            vertical-align: middle;
+            background-color: #212125;
+            border: none;
+            font-weight: 450;
+            color: #ecedee;
+            transition: background 0.15s ease;
+        }
+
+        .table tbody tr {
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .table tbody tr:hover td {
+            background-color: #2c2c33 !important;
+        }
+
+        /* Bordes redondeados en filas */
+        .table tbody tr td:first-child {
+            border-top-left-radius: 14px;
+            border-bottom-left-radius: 14px;
+            padding-left: 1.5rem;
+        }
+
+        .table tbody tr td:last-child {
+            border-top-right-radius: 14px;
+            border-bottom-right-radius: 14px;
+            padding-right: 1.5rem;
+        }
+
+        /* Badges personalizados */
+        .badge-premium {
+            font-weight: 600;
+            padding: 0.35rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            border: 1px solid;
+            display: inline-block;
+        }
+
+        .badge-danger {
+            background-color: #451e1e;
+            color: #fca5a5;
+            border-color: #7f1d1d;
+        }
+
+        .badge-success {
+            background-color: #14532d;
+            color: #86efac;
+            border-color: #166534;
+        }
+
+        /* Barra de confianza minimalista */
+        .confidence-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .confidence-bar-bg {
+            width: 60px;
+            height: 5px;
+            background-color: #3f3f46;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .confidence-bar-fill {
+            height: 100%;
+            background-color: #a1a1aa;
+            border-radius: 10px;
+        }
+
+        /* Estado vacío */
+        .empty-state {
+            text-align: center;
+            padding: 3rem !important;
+            background-color: #212125 !important;
+            border-radius: 20px !important;
+            color: #71717a;
+            font-weight: 500;
+        }
+
+        /* Ajustes responsive */
+        @media (max-width: 768px) {
+            .kpi-value { font-size: 2.5rem; }
+            .kpi-action .kpi-value { font-size: 1.8rem; }
+            .dashboard-header { flex-direction: column; align-items: start; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <!-- Header mejorado -->
+        <div class="dashboard-header">
+            <h2>Panel de Monitoreo IoT</h2>
+            <div class="live-badge">
+                <span>Stream en vivo</span>
+            </div>
+        </div>
+
+        <!-- KPIs - Misma lógica de variables -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="kpi-card kpi-total">
+                    <div class="kpi-label">Total Evaluaciones</div>
+                    <div class="kpi-value">{{ kpis.total_events }}</div>
+                    <div class="kpi-context">
+                        <span>⬤</span> Sesiones acumuladas
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kpi-card kpi-alarm">
+                    <div class="kpi-label">Total Alarmas</div>
+                    <div class="kpi-value">{{ kpis.total_alarms }}</div>
+                    <div class="kpi-context">
+                        <span>⚠️</span> Eventos críticos detectados
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kpi-card kpi-action">
+                    <div class="kpi-label">Acción más frecuente</div>
+                    <div class="kpi-value">{{ kpis.most_common_action }}</div>
+                    <div class="kpi-context">
+                        <span>📊</span> Patrón predominante
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de eventos - Misma variable recent_logs -->
+        <div class="table-card">
+            <div class="table-header">
+                <h4>Últimos Eventos</h4>
+                <span class="table-counter">Top 20 registros</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Fecha / Hora</th>
+                            <th>Estado</th>
+                            <th>Acción Detectada</th>
+                            <th>Confianza</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in recent_logs %}
+                        <tr>
+                            <td>
+                                <span style="font-weight: 500;">{{ log.timestamp }}</span>
+                            </td>
+                            <td>
+                                {% if log.is_alarm %}
+                                    <span class="badge-premium badge-danger">Alarma</span>
+                                {% else %}
+                                    <span class="badge-premium badge-success">Seguro</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span style="text-transform: capitalize;">{{ log.action_detected }}</span>
+                            </td>
+                            <td>
+                                <div class="confidence-indicator">
+                                    <span style="min-width: 45px; font-feature-settings: 'tnum';">{{ "%.1f"|format(log.confidence * 100) }}%</span>
+                                    <div class="confidence-bar-bg">
+                                        <div class="confidence-bar-fill" style="width: {{ log.confidence * 100 }}%;"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% if not recent_logs %}
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                <div style="font-size: 1rem; margin-bottom: 4px;">⏳ Sin actividad reciente</div>
+                                <div style="font-size: 0.8rem;">Los eventos aparecerán aquí en tiempo real.</div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Pie sutil con metadata -->
+        <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; color: #52525b; font-size: 0.75rem;">
+            <span>Actualización continua • Sistema de monitoreo cognitivo v2.1</span>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (opcional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
