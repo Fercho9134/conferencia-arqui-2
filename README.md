@@ -47,13 +47,25 @@ El script encenderá la cámara, se conectará al servidor y comenzará a mostra
 
 ---
 
-## Cómo funciona CLIP (Zero-Shot)
+## 🧠 El Poder de CLIP: Zero-Shot Classification
 
-A diferencia de los sistemas de visión estándar que requieren miles de imágenes de ejemplo para aprender a detectar objetos específicos, este proyecto usa CLIP (modelo de OpenAI).
+A diferencia de los sistemas tradicionales de visión artificial que requieren recopilar miles de imágenes de ejemplo y entrenar un modelo durante horas o días para detectar **un solo objeto** específico, este proyecto utiliza el modelo **CLIP (Contrastive Language-Image Pretraining)** de OpenAI.
 
-CLIP asocia imágenes y texto. Esto le permite hacer "Zero-Shot Classification", lo que significa que el modelo no ha sido entrenado para el caso de uso particular de la fábrica provisto en el código base. En lugar de eso, le entregamos descripciones en texto ("prompts") de lo que queremos buscar, y el modelo evalúa qué tanto de la imagen coincide con esas descripciones.
+### ¿Cómo lo hace?
+CLIP no ha sido entrenado para encontrar "cascos de seguridad" u "operarios de fábrica". Ha sido entrenado para **entender la relación profunda entre las imágenes y el lenguaje natural**. 
 
-Por su naturaleza, el sistema no está limitado al ejemplo actual. Puede usarse para detectar "una persona usando equipo de protección", "un incendio activo" o "alguien levantando peso". El modelo infiere la información a partir del texto indicado sin pasos extra.
+Esto le otorga la increíble capacidad de hacer **"Zero-Shot Classification"** (Clasificación de Cero Tiros). En lugar de reentrenar la IA para cada caso, simplemente le entregamos descripciones en texto ("prompts") de lo que queremos buscar. El modelo lee en tiempo real lo que ve la cámara y evalúa matemáticamente qué tanto coincide la imagen con la descripción que le dimos.
+
+### ¿Qué puede detectar? ¡Prácticamente cualquier cosa!
+Dado que entiende conceptos descritos en texto abierto, el sistema **no está limitado a la industria**. Con solo cambiar una línea de código, puedes pedirle a la cámara que detecte escenarios completamente diferentes sin descargar modelos nuevos:
+
+*   🕶️ *"A person wearing sunglasses"* (Una persona con lentes de sol)
+*   🚗 *"A person driving a car"* (Alguien manejando un auto)
+*   👷 *"A construction worker wearing a safety vest"* (Un operario con chaleco)
+*   🔥 *"An active fire breaking out"* (Un incendio activo)
+*   ☕ *"Someone drinking from a mug"* (Alguien tomando café)
+
+Es como tener un analista de video sentado frente a las cámaras al que puedes darle nuevas instrucciones de seguridad simplemente escribiéndolas. ¡El modelo inferirá la información al vuelo!
 
 ---
 
