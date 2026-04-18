@@ -11,11 +11,10 @@ SEND_INTERVAL_SEC = 1.0
 
 # Traducción de etiquetas del modelo a términos de usuario
 DISPLAY_LABELS = {
+    "A factory worker focused on working at the desk": "Enfocado",
     "A factory worker distracted looking at a mobile phone": "Usando Celular",
     "A factory worker sleeping on the desk": "Durmiendo",
     "A factory worker drinking water from a glass": "Bebiendo Agua",
-    "A factory worker with a cap": "Usando gorra",
-    "A factory worker without a cap": "Sin gorra"
 }
 
 # Definición de paleta de colores en formato BGR
