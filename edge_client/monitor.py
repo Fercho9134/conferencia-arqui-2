@@ -11,10 +11,11 @@ SEND_INTERVAL_SEC = 1.0
 
 # Traducción de etiquetas del modelo a términos de usuario
 DISPLAY_LABELS = {
-    "A factory worker focused on working at the desk": "Enfocado",
     "A factory worker distracted looking at a mobile phone": "Usando Celular",
     "A factory worker sleeping on the desk": "Durmiendo",
-    "A factory worker drinking water from a glass": "Bebiendo Agua"
+    "A factory worker drinking water from a glass": "Bebiendo Agua",
+    "A factory worker with a cap": "Usando gorra",
+    "A factory worker without a cap": "Sin gorra"
 }
 
 # Definición de paleta de colores en formato BGR
@@ -136,7 +137,7 @@ class AttentionMonitor:
         # Para linux usar cv2.CAP_V4L2
         # Para windows usar cv2.CAP_DSHOW
         # Para mac usar cv2.CAP_AVFOUNDATION
-        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) 
+        cap = cv2.VideoCapture(0) 
         
         if not cap.isOpened():
             print("Error: Fallo al inicializar el dispositivo de captura.")
